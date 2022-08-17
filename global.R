@@ -10,6 +10,7 @@ library(shiny)
 library(shinydashboard)
 library(stats)
 library(ggplot2)
+library(MLmetrics)
 
 # Bibliotecas
 #library(plotly)
@@ -24,7 +25,7 @@ tabuas <- read.csv2("~/TCC/aderencia-tabuas/data/tabuas.csv")
 attach(tabuas)
 
 
-
+rsq <- function (x, y) cor(x, y) ^ 2
 
 #Função de seleção de tábua de vida, usa os inputs como parametros e retorna a tábua desejada
 tabSelect <- function(tab){ # tab=input$tab e sex=input$sex

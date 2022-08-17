@@ -44,36 +44,6 @@ shinyServer(function(input, output, session) {
   })
   
   
-  output$reportKS2old <- renderTable(width='90%', digits = 5, {
-    #inFile <- input$exp
-    if(!exists('expRPPS'))
-      return(NULL)
-    # if (is.null(expRPPS))
-    #   return(NULL)
-    
-    
-    n_tabua <- character()
-    desvio <- numeric()
-    p_value <- numeric()
-    
-    for (n in names(tabuas)){
-      if (n=='x')
-        next
-      aux <- merge(x = tabSelect2(n), y = expRPPS, by = "x", all = F)
-      aux2<-ks.test(aux[,2], aux[,3])
-      
-      n_tabua<-c(n_tabua, n)
-      desvio <- c(desvio, aux2$statistic)
-      p_value <- c(p_value, aux2$p.value)
-      
-    }
-    df <- data.frame(tabua=n_tabua, desvio=desvio, p_valor=p_value)
-    return(df[order(df$desvio),])
-    
-    
-  })
-  
-  
   output$reportKS2 <- renderTable(width='90%', digits = 5, {
     #inFile <- input$exp
     # 
@@ -86,15 +56,16 @@ shinyServer(function(input, output, session) {
     desvio <- numeric()
     p_value <- numeric()
     p_value_chisq <- numeric()
+    mape <- numeric()
     
     for (n in names(tabuas)){
       if (n=='x')
         next
-      aux <<- merge(x = tabSelect2(n), y = expRPPS, by = "x", all = F)
+      aux <- merge(x = tabSelect2(n), y = expRPPS, by = "x", all = F)
       aux2<-ks.test(aux[,2], aux[,3])
       
       
-      auxChisq<-merge(x = tabSelect2(input$tab), y = expRPPS_val[,c('x', 'mortes')], by = "x", all = F)
+      auxChisq<-merge(x = tabSelect2(n), y = expRPPS_val[,c('x', 'mortes')], by = "x", all = F)
       
       #Linhas para teste
       #auxChisq<-merge(x = tabSelect2("AT.2000.MALE"), y = expRPPS_val[,c('x', 'mortes')], by = "x", all = F)
@@ -109,9 +80,10 @@ shinyServer(function(input, output, session) {
       desvio <- c(desvio, aux2$statistic)
       p_value <- c(p_value, aux2$p.value)
       p_value_chisq <- c(p_value_chisq, aux3$p.value)
+      mape <- c(mape, MAPE(aux[,2], aux[,3]))
       
     }
-    df <- data.frame(tabua=n_tabua, desvio=desvio, p_valor_KS=p_value, p_valor_Chisq=p_value_chisq)
+    df <- data.frame(tabua=n_tabua, desvio=desvio, p_valor_KS=p_value, p_valor_Chisq=p_value_chisq, MAPE=mape)
     return(df[order(df$desvio),])
     
     

@@ -72,8 +72,8 @@ dashboardPage(
                                                                   "IBGE 2009 Ambos os Sexos" = "IBGE.2009.................Ambos.os.Sexos")),
 
         numericInput("alfa", "Nível de Significância", min = 0, max = 1, value = 0.01, step = 0.01 ),
-        sliderInput('rangeIdades', 'Idades', ticks=FALSE, width="100%", min = 0,
-                    max = 120, value = c(0, 120), sep=''),
+        # sliderInput('rangeIdades', 'Idades', ticks=FALSE, width="100%", min = 0,
+        #             max = 120, value = c(0, 120), sep=''),
         #tags$img(src="github.png",width=150, align="middle"),
         tags$a( href = "http://unifal-mg.edu.br/lar/",
                 tags$img(src="LAR.png",width=150, align="middle")),
