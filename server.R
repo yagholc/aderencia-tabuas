@@ -65,7 +65,7 @@ shinyServer(function(input, output, session) {
       aux2<-ks.test(aux[,2], aux[,3])
       
       
-      auxChisq<-merge(x = tabSelect2(n), y = expRPPS_val[,c('x', 'mortes')], by = "x", all = F)
+      auxChisq<<-merge(x = tabSelect2(n), y = expRPPS_val[,c('x', 'mortes')], by = "x", all = F)
       
       #Linhas para teste
       #auxChisq<-merge(x = tabSelect2("AT.2000.MALE"), y = expRPPS_val[,c('x', 'mortes')], by = "x", all = F)
@@ -126,15 +126,15 @@ shinyServer(function(input, output, session) {
     
     #Incluir informaç~eos resumidas sobre o conjunto de dados. Como total de mortes na base x total de mortes segundo a tábua. Total de participantes
     
-    cat('Tábua:', input$tab, '\n',
-        'Dx Esperado: ', dx_esperado,
-        '\nDx Observado: ', dx_observado,
-        '\nTeste Kolmorogov-Smirnov: \n -H0: A tábua é aderente ao comportamento da população \n -H1:A tábua não é aderente ao comportamento da população \n',
+    cat('-Tábua:', input$tab, 
+        # '\nDx Esperado: ', dx_esperado,
+        # '\nDx Observado: ', dx_observado,
+        '\n\n\nTeste Kolmorogov-Smirnov: \n -H0: P-valor >= α A tábua é aderente ao comportamento da população \n -H1: P-valor < α A tábua não é aderente ao comportamento da população \n',
         'P-valor observado: ', p_value_ks,
         '\nEstatística do Teste: ', desvio,
         ifelse(p_value_ks>input$alfa, paste0('A um nível ', input$alfa, ' de significância não se rejeita H0.'),
                paste0('A um nível ', input$alfa, ' de significância rejeita-se H0.')),
-        '\n\n\nTeste Qui Quadrado: \n -H0: Há Aderência \n -H1:  Não há aderência \n',
+        '\n\n\nTeste Qui Quadrado: \n -H0: P-valor >= α Há Aderência \n -H1: P-valor < α  Não há aderência \n',
         'P-valor observado:', p_value_chisq,
         ifelse(p_value_ks<=input$alfa, paste0('\nA um nível ', input$alfa, ' de significância não se rejeita H0.'),
                paste0('A um nível ', input$alfa, ' de significância rejeita-se H0.')))
